@@ -12,6 +12,8 @@ PICマイコンのリアルタイム性能を活かし高速なアナログデ�
 
 ## 製品詳細は[こちら](https://bit-trade-one.co.jp/product/module/adcq1706bp/)!
 
+## [PCアプリ](https://github.com/bit-trade-one/ADCQ1706BP_OscilloScope/tree/master/App)
+
 ## 製品仕様
 
 【対応OS】Raspbian  
