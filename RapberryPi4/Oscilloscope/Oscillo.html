@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- オシロスコープ　ブラウザ制御 4秒ごとにデータ要求を繰り返す -->
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Oscilloscope</title>
+	<script type="text/javascript" src="/webiopi.js"></script>
+	<script type="text/javascript">
+		/*　初期化　関数の定義 */
+		var Trig = 2048;			// 初期位置0レベル
+		var Rise = 1;
+		webiopi().ready(function(){
+			StartAp();
+			Display();
+			Hsync(para);
+			Channel(para);
+			Shutdown();
+			TrigUp();
+			TrigDown();
+			RiseFall();
+		});	
+		/* Startボタンにより繰り返し計測開始 */
+		function StartAp(){
+			webiopi().callMacro("GetGraph");	// デーモン起動
+			Display();
+		}
+		function Display(){	
+			document.getElementById("G").src = "graph2.png?"+(new Date() - 0);
+			setTimeout("Display()", 3000);		// 表示繰り返し周期
+		}
+		/* 水平同期選択 */
+		function Hsync(para){
+			var Hsync = para;
+			webiopi().callMacro("SetHsync", Hsync);
+		}
+		/* チャネル選択  */
+		function Channel(para){
+			var Chan = para;
+			webiopi().callMacro("SetChan", Chan);
+		}
+		/* トリガ位置アップ */
+		function TrigUp(){
+			Trig=Trig+10;
+			if(Trig > 3048)
+				Trig = 3048;
+			webiopi().callMacro("SetTrig", Trig);
+		}
+		/* トリガ位置ダウン */
+		function TrigDown(){
+			Trig=Trig-10;
+			if(Trig<1048)
+				Trig = 1048;
+			webiopi().callMacro("SetTrig", Trig);
+		}
+		/* 立ち上がり立ち下がり切り替え */ 
+		function RiseFall(){
+			if(Rise == 1)
+				Rise = 0;
+			else
+				Rise = 1;
+			webiopi().callMacro("SetRise", Rise);
+		}			
+		/* シャットダウンマクロ関数を呼び出す関数 */
+		function Shutdown(){
+			var answer = confirm("シャットダウンしますか？？");
+			if(answer == true)
+				webiopi().callMacro("ShutCmd");
+		}
+	</script>
+	<style type="text/css">
+		h
+		{padding-left:2em;}
+	</style>
+</head>
+<body>
+	<!-- 見出し表示 -->
+	<p style="text-align:left; margin-left:0px;">
+	<font size=5>[オシロスコープ]</font>
+	</p>
+	<!-- Startボタン表示 -->
+	<input type="button" value="Start" onClick="StartAp()"
+	style="WIDTH:130px;font-size:25px; background-color:cyan; margin-left:0px;" >
+	<h>Startクリックで4秒間隔でデータ更新</h>
+	<br>
+	<table border="0" align="left" rules="none" cellpadding="0">
+	<tr>
+	<td>
+		チャネル切り替え<br>
+		<input type="button" value="CH1" onClick="Channel(1)"
+		style="WIDTH:130px;font-size:20px;background-color:red;margin-top:2px;"><br>
+		<input type="button" value="CH2" onClick="Channel(2)"
+		style="WIDTH:130px;font-size:20px;background-color:blue;margin-top:2px;"><br>
+		<br><br>
+		水平時間軸選択<br>
+		<input type="button" value="5us/Div" onClick="Hsync(0)"
+		style="WIDTH:130px;font-size:20px; background-color:cyan;margin-top:2px;"><br>	
+		<input type="button" value="10us/Div" onClick="Hsync(1)"
+		style="WIDTH:130px;font-size:20px; background-color:cyan;margin-top:2px;"><br>
+		<input type="button" value="50us/Div" onClick="Hsync(2)"
+		style="WIDTH:130px;font-size:20px; background-color:cyan;margin-top:2px;"><br>
+		<input type="button" value="100us/Div" onClick="Hsync(3)"
+		style="WIDTH:130px;font-size:20px; background-color:cyan;margin-top:2px;"><br>	
+		<input type="button" value="1ms/Div" onClick="Hsync(4)"
+		style="WIDTH:130px;font-size:20px; background-color:cyan;margin-top:2px;"><br>
+		<input type="button" value="2ms/Div" onClick="Hsync(5)"
+		style="WIDTH:130px;font-size:20px; background-color:cyan;margin-top:2px;"><br>
+		<input type="button" value="10ms/Div" onClick="Hsync(6)"
+		style="WIDTH:130px;font-size:20px; background-color:cyan;margin-top:2px;"><br>
+		<br><br>
+		トリガ位置制御<br>
+		<input type="button" value="Up" onClick="TrigUp()"
+		style="WIDTH:130px;font-size:20px; background-color:yellow;marigin-top:5px;"><br>
+		<input type="button" value="Down" onClick="TrigDown()"
+		style="WIDTH:130px;font-size:20px; background-color:gray;marigin-top:5px;"><br>
+		<input type="button" value="Rise/Fall" onClick="RiseFall()"
+		style="WIDTH:130px;font-size:20px; background-color:green;marigin-top:5px;">	<br>	
+	</td>
+	<td>
+		<img src="graph2.png" id="G" width=1000 border="0" align="left">
+	</td>
+	</tr>
+	<tr><td></td>
+	<td>
+	<input type="button" value="Shutdown" onClick='Shutdown()' style="WIDTH:130px;
+		 font-size:25px; background-color:lightgray; margin-left:20px;">
+		<h>強制シャットダウンするので注意！</h>
+	</td></tr>
+	</table>
+</body>
+</html>

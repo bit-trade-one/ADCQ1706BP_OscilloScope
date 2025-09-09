@@ -1,4 +1,44 @@
-# よくある質問
+# ADCQ1706BPRE-USBオシロスコープ よくある質問
+
+## Q. Raspberry Pi 4で動作しますか？
+ 
+### A. サンプルアプリの修正が必要になります
+Raspberry Pi 4のRaspberry Pi OSの環境で動作させるには、以下の修正が必要となります。
+- Python2環境からPython3環境への移行  
+文字列型の違い等を修正する必要gああります。
+- 必要なモジュールやファイルのインストール（matplotlib、フォント等）
+```
+sudo apt install -y python3-matplotlib
+sudo apt install fonts-ipafont fonts-ipaexfont
+```
+- GPIOに互換性がないため、WebIOPIの動作に制限があります。本製品をRaspberry Pi 4で使う場合には付属のUSBシリアル変換モジュールをご使用ください。  
+この場合、シリアルのデバイス名は「/dev/ttyUSB0」等の名称となります。
+- Raspberry Pi 4BにRaspberry Pi OS(64-bit） 2025-05-13をインストールした環境で動作するRaspberry Piアプリケーションを参考にしてください。
+
+## Q. WebIOPIがインストールできない
+ 
+### A. 雑誌記事のテキストに誤記と全角スペースが含まれています。下記のコマンドを実行してください。
+```
+sudo wget https://sourceforge.net/projects/webiopi/files/WebIOPi-0.7.1.tar.gz
+sudo tar xvzf WebIOPi-0.7.1.tar.gz
+cd WebIOPi-0.7.1/
+wget https://raw.githubusercontent.com/doublebind/raspi/master/webiopi-pi2bplus.patch
+patch -p1 -i webiopi-pi2bplus.patch
+sudo ./setup.sh
+ ```
+## Q. Webiopiのconfigファイル変更が反映されない
+ 
+### A. 解凍したconfigファイルではなく、/etc/webiopi/configを修正してください。
+また、解凍したconfigファイルの以下の部分を修正してください。  
+　誤：doc-root = /home/pi/DMM  
+　正；doc-root = /home/pi/Oscilloscope  
+
+## Q. Raspberry Piのすべてのユーザで動作しますか？
+ 
+### A. サンプルアプリはuser:piで動作するように設定されています。  
+他のユーザで動作させる場合は、すべてのスクリプト、および設定ファイルの/home/piの部分を修正してください。
+
+
 ## Q:Windows用のアプリケーションログ出力はどのような間隔で出力されているのでしょうか？
 
 ### A:以下のような出力になっております。  
