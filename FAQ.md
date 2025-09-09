@@ -5,8 +5,8 @@
 ### A. サンプルアプリの修正が必要になります
 Raspberry Pi 4のRaspberry Pi OSの環境で動作させるには、以下の修正が必要となります。
 - Python2環境からPython3環境への移行  
-文字列型の違い等を修正する必要gああります。
-- 必要なモジュールやファイルのインストール（matplotlib、フォント等）
+文字列型の違い等を修正する必要があります。
+- 必要なモジュールやファイルのインストール（matplotlib、フォント）
 ```
 sudo apt install -y python3-matplotlib
 sudo apt install fonts-ipafont fonts-ipaexfont
