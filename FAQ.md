@@ -13,7 +13,8 @@ sudo apt install fonts-ipafont fonts-ipaexfont
 ```
 - GPIOに互換性がないため、WebIOPIの動作に制限があります。本製品をRaspberry Pi 4で使う場合には付属のUSBシリアル変換モジュールをご使用ください。  
 この場合、シリアルのデバイス名は「/dev/ttyUSB0」等の名称となります。
-- Raspberry Pi 4BにRaspberry Pi OS(64-bit） 2025-05-13をインストールした環境で動作するRaspberry Piアプリケーションを参考にしてください。
+- Raspberry Pi 4BにRaspberry Pi OS(64-bit） 2025-05-13をインストールした環境で動作するRaspberry Piアプリケーションを参考にしてください。  
+[Raspberry Pi 4 サンプルアプリ](https://github.com/bit-trade-one/ADCQ1706BP_OscilloScope/tree/master/RapberryPi4/Oscilloscope)
 
 ## Q. WebIOPIがインストールできない
  
@@ -56,3 +57,9 @@ AD変換が終わって次のデータ取得要求によってAD変換を開始�
 間隔が空いてしまいますのでトータルのデータでサンプリング周期を計算すると一致しません。  
 2000データ毎には、指定のサンプリング周期にはなっていますが、  
 2000データ毎の区切り部分では計測データは連続しておらず多少の間隔が空いております。
+
+## Q. 基板上のジャンパの詳細について
+
+### A:以下のドキュメントを参照してください。
+[ADCQ1706B_ジャンパーピンについて_2020-11-19](
+https://github.com/bit-trade-one/ADCQ1706BP_OscilloScope/blob/master/ADCQ1706B_%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%91%E3%83%BC%E3%83%94%E3%83%B3%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6_2020-11-19.pdf)
